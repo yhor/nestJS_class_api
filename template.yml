@@ -20,13 +20,36 @@ Resources:
       Runtime: nodejs14.x
       MemorySize: 256
       Timeout: 180
-      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Description: nestJS in dynamodb
+      # Policies:
+        # - DynamoDBCrudPolicy:
+        #     TableName: - !Ref schoolTable
+        #       - !Ref userTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          DYNAMO_SCHOOL: !Ref schoolTable
+          DYNAMO_USER: !Ref userTable
       Events:
         Api:
           Type: Api
           Properties:
             Path: /{proxy+}
             Method: ANY
+
+  schoolTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: name
+        Type: String
+
+  userTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: name
+        Type: String
 
 Outputs:
   WebEndpoint:
