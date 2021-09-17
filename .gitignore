@@ -11,3 +11,9 @@ coverage
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+samconfig.toml
+
+makefile
+
+.aws-sam

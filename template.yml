@@ -1,0 +1,34 @@
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  type-test
+
+Transform:
+- AWS::Serverless-2016-10-31
+
+Resources:
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: get-by-id.js
+
+  nestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: dist/lambda.handler
+      Runtime: nodejs14.x
+      MemorySize: 256
+      Timeout: 180
+      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
