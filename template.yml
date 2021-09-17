@@ -6,6 +6,16 @@ Description: >-
 Transform:
 - AWS::Serverless-2016-10-31
 
+Parameters:
+  default_ReadCapacityUnits:
+    Type: Number
+    Description: dynamodb Default ReadCapacityUnits
+    Default: 2
+  default_WriteCapacityUnits:
+    Type: Number
+    Description: dynamodb Default WriteCapacityUnits
+    Default: 2
+
 Resources:
 
   nestFunction:
@@ -24,8 +34,8 @@ Resources:
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          DYNAMO_SCHOOL: !Ref schoolTable
-          DYNAMO_USER: !Ref userTable
+          DYNAMO_SCHOOL: !Ref schoolsTable
+          DYNAMO_USER: !Ref usersTable
       Events:
         Api:
           Type: Api
@@ -33,19 +43,39 @@ Resources:
             Path: /{proxy+}
             Method: ANY
 
-  schoolTable:
-    Type: AWS::Serverless::SimpleTable
+  schoolsTable:
+    Type: AWS::DynamoDB::Table
     Properties:
-      PrimaryKey:
-        Name: name
-        Type: String
+      AttributeDefinitions:
+        - AttributeName: area
+          AttributeType: S
+        - AttributeName: name
+          AttributeType: S
+      KeySchema:
+        - AttributeName: area
+          KeyType: HASH
+        - AttributeName: name
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref default_ReadCapacityUnits
+        WriteCapacityUnits: !Ref default_WriteCapacityUnits
 
-  userTable:
-    Type: AWS::Serverless::SimpleTable
+  usersTable:
+    Type: AWS::DynamoDB::Table
     Properties:
-      PrimaryKey:
-        Name: name
-        Type: String
+      AttributeDefinitions:
+        - AttributeName: name
+          AttributeType: S
+        - AttributeName: grade
+          AttributeType: S
+      KeySchema:
+        - AttributeName: name
+          KeyType: HASH
+        - AttributeName: grade
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref default_ReadCapacityUnits
+        WriteCapacityUnits: !Ref default_WriteCapacityUnits
 
 Outputs:
   WebEndpoint:

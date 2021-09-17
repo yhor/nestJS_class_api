@@ -24,7 +24,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
-
-  await app.listen(3000);
+  const PORT = process.env.PORT || 3000;
+  
+  console.info(`서버 ${PORT} 실행중~`);
+  await app.listen(PORT);
 }
 bootstrap();
