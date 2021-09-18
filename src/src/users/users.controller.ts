@@ -37,9 +37,9 @@ export class UsersController {
     return this.usersService.subCreate(createUserDto);
   }
 
-  // @Patch('/sub')
-  // subCancel(@Param('name') name: string, @Param('area') area: string) {
-  //   return this.usersService.subCancel(name, area);
-  // }
+  @Patch('/sub')
+  subCancel(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.subCancel(createUserDto);
+  }
 
 }

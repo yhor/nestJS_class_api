@@ -6,7 +6,7 @@ const putUser = (user: User) => {
   const Item = {
     name: user.name,
     grade: user.grade,
-  }
+  } 
 
   if(user.subs) {
     Item['subs'] = JSON.stringify(user.subs);
