@@ -14,7 +14,7 @@ export class UsersController {
     return this.usersService.userList();
   }
 
-  //유저 가입
+  //유저생성
   @Post()
   userCreate(@Body() createUserDto: CreateUserDto) {
     return this.usersService.userCreate(createUserDto);
@@ -26,25 +26,33 @@ export class UsersController {
     return this.usersService.userDelete(query);
   }
 
-  //학생은 구독중인 학교 페이지 목록을 확인할 수 있다.
-  @Get('/sub/list')
-  subList(@Query() query: CreateUserDto) {
-    return this.usersService.subList(query);
-  }
-
-  @Get('/sub/:schoolname/:schoolarea')
-  subDetail(@Param('schoolname') name: string, @Param('schoolarea') area: string, @Query() query: CreateUserDto) {
-    return this.usersService.subDetail(name, area, query);
-  }
-
+  //학생은 학교 페이지를 구독할 수 있다.
   @Post('/sub')
   subCreate(@Body() createUserDto: CreateUserDto) {
     return this.usersService.subCreate(createUserDto);
   }
 
+  //학생은 구독 중인 학교 페이지를 구독 취소할 수 있다.
   @Patch('/sub')
   subCancel(@Body() createUserDto: CreateUserDto) {
     return this.usersService.subCancel(createUserDto);
   }
 
+  //학생은 구독 중인 학교 페이지 목록을 확인할 수 있다
+  @Get('/sub/list')
+  subList(@Query() query: CreateUserDto) {
+    return this.usersService.subList(query);
+  }
+
+  //학생은 구독 중인 학교 페이지별 소식을 볼 수 있다. 학교별 소식은 최신순으로 노출해야 함
+  @Get('/sub/:schoolname/:schoolarea')
+  subDetail(@Param('schoolname') name: string, @Param('schoolarea') area: string, @Query() query: CreateUserDto) {
+    return this.usersService.subDetail(name, area, query);
+  }
+
+  //추가구현
+  @Get('/sub/all')
+  subAll(@Query() query: CreateUserDto) {
+    return this.usersService.subAll(query);
+  }
 }
