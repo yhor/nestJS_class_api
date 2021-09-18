@@ -7,11 +7,11 @@ Transform:
 - AWS::Serverless-2016-10-31
 
 Parameters:
-  default_ReadCapacityUnits:
+  defaultReadCapacityUnits:
     Type: Number
     Description: dynamodb Default ReadCapacityUnits
     Default: 2
-  default_WriteCapacityUnits:
+  defaultWriteCapacityUnits:
     Type: Number
     Description: dynamodb Default WriteCapacityUnits
     Default: 2
@@ -27,10 +27,8 @@ Resources:
       MemorySize: 256
       Timeout: 180
       Description: nestJS in dynamodb
-      # Policies:
-        # - DynamoDBCrudPolicy:
-        #     TableName: - !Ref schoolTable
-        #       - !Ref userTable
+      Policies:
+        - AmazonDynamoDBFullAccess
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
@@ -57,8 +55,8 @@ Resources:
         - AttributeName: name
           KeyType: RANGE
       ProvisionedThroughput:
-        ReadCapacityUnits: !Ref default_ReadCapacityUnits
-        WriteCapacityUnits: !Ref default_WriteCapacityUnits
+        ReadCapacityUnits: !Ref defaultReadCapacityUnits
+        WriteCapacityUnits: !Ref defaultWriteCapacityUnits
 
   usersTable:
     Type: AWS::DynamoDB::Table
@@ -74,8 +72,8 @@ Resources:
         - AttributeName: grade
           KeyType: RANGE
       ProvisionedThroughput:
-        ReadCapacityUnits: !Ref default_ReadCapacityUnits
-        WriteCapacityUnits: !Ref default_WriteCapacityUnits
+        ReadCapacityUnits: !Ref defaultReadCapacityUnits
+        WriteCapacityUnits: !Ref defaultWriteCapacityUnits
 
 Outputs:
   WebEndpoint:

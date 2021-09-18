@@ -17,3 +17,7 @@ samconfig.toml
 makefile
 
 .aws-sam
+
+.env.prod
+.env.dev
+.env.test

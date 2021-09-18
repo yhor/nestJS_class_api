@@ -2,7 +2,7 @@ import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
 class News {
   @IsOptional()
-  @IsNumber()@IsNumber()
+  @IsNumber()
   readonly id?: number;
 
   @IsString()

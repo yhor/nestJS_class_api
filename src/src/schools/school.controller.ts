@@ -7,13 +7,11 @@ import { UpdateSchoolDto } from './dto/update-school.dto';
 export class SchoolController {
   constructor(private readonly schoolService: SchoolService) {}
 
-  //Good
   @Post()
   create(@Body() createSchoolDto: CreateSchoolDto) {
     return this.schoolService.create(createSchoolDto);
   }
 
-  //Good
   @Get()
   findAll() {
     return this.schoolService.findSchools();

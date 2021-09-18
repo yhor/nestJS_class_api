@@ -13,7 +13,9 @@ export class SchoolService {
   async create(createSchoolDto: CreateSchoolDto) {
     await getSchool(createSchoolDto, false);
 
-    return putSchool(createSchoolDto);
+    await putSchool(createSchoolDto);
+
+    return `${createSchoolDto.name}(${createSchoolDto.area})학교가 등록되었습니다`;
   }
 
   findSchools() {
@@ -29,8 +31,8 @@ export class SchoolService {
   async newsCreate(updateSchoolDto: UpdateSchoolDto) {
     const { area, name, news } = updateSchoolDto;
     const school = await getSchool({ area, name });
-    const id = school.news ? school.news.length + 1 : 1;
 
+    const id = school.news ? school.news.length + 1 : 1;
     school.news = school.news || [];
     school.news.push({
       id,
