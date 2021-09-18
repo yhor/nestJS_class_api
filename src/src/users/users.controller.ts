@@ -32,6 +32,11 @@ export class UsersController {
     return this.usersService.subList(query);
   }
 
+  @Get('/sub/:schoolname/:schoolarea')
+  subDetail(@Param('schoolname') name: string, @Param('schoolarea') area: string, @Query() query: CreateUserDto) {
+    return this.usersService.subDetail(name, area, query);
+  }
+
   @Post('/sub')
   subCreate(@Body() createUserDto: CreateUserDto) {
     return this.usersService.subCreate(createUserDto);

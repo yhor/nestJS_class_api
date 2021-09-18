@@ -7,6 +7,7 @@ import getUsers from './../db/users/getUsers';
 import putUser from './../db/users/putUsers';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -34,8 +35,17 @@ export class UsersService {
     const subs = user.subs
       .filter((sub) => sub.is_sub === 'Y')
       .map((obj) => `${obj.name}(${obj.area})`);
-      
+
     return subs.length === 0 ? '구독중인 학교가 없습니다' : subs;
+  }
+
+  async subDetail(name, area ,createUserDto: CreateUserDto) {
+    const user = await getUser(createUserDto, true);
+    const school = await getSchool({name, area});
+    
+    if (!school.news) return '구독중인 학교에 뉴스가 없습니다.';
+
+    return this.getNewsList(name, area, user, school);
   }
 
   async subCreate(createUserDto: CreateUserDto) {
@@ -92,18 +102,34 @@ export class UsersService {
 
     return `${createUserDto.name} ${schoolInfo.name}(${schoolInfo.area}) 구독취소`;
   }
+  
+  getNewsList (name: string, area: string, user: User, school: School) {
 
-  // findAll() {
-  //   return [];
-  // }
+    const news = [];
+    let lastSubStartDate;
+    
+    const subList = user.subs.filter((sub) => {
+      if (sub.name === name && sub.area === area) {
+        if (sub.is_sub !=='Y') return true;
+        lastSubStartDate = sub.sub_start_date;
+        return false;
+      }
+    });
 
-  // findOne() {
-  //   return [];
-  // }
+    for (let i = school.news.length - 1; i >= 0; i--) {
+      if (school.news[i].is_delete === 'Y') continue;
 
-  // sub(area: string, name: string) {
-  //   return `${name}(${area}) 구독완료`;
-  // }
+      const { reg_date, id, subject, content } = school.news[i];
 
-  //
+      if (lastSubStartDate && reg_date > lastSubStartDate) {
+        news.push({ id, subject, content, reg_date }); 
+        continue;
+      }
+      subList.forEach((sub) => {
+        if ( sub.sub_start_date <= reg_date && reg_date <= sub.sub_end_date) {
+          news.push({ id, subject, content, reg_date }); 
+        }
+      });
+    }
+  }
 }
