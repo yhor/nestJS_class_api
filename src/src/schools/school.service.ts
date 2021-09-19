@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
-import { School } from './entities/school.entity';
 
 import getSchools from './../db/schools/getSchools';
 import putSchool from '../db/schools/putSchool';

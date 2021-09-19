@@ -1,30 +1,41 @@
 import { IsDate, IsOptional, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
 
-class Subs {
+export class CreateSubDto {
+  @ApiProperty()
   @IsString()
   readonly area: string;
 
+  @ApiProperty()
   @IsString()
   readonly name: string;
   
+  @ApiProperty()
+  @IsOptional()
   @IsDate()
-  readonly sub_start_date: Date;
+  readonly sub_start_date?: Date;
   
+  @ApiProperty()
   @IsOptional()
   @IsDate()
   readonly sub_end_date?: Date;
   
+  @ApiProperty()
+  @IsOptional()
   @IsString()
-  readonly is_sub: string;
+  readonly is_sub?: string;
 }
 
 export class CreateUserDto {
+  @ApiProperty()
   @IsString()
   readonly name: string;
 
+  @ApiProperty()
   @IsString()
-  readonly grade: string;
+  readonly role: string;
 
+  @ApiProperty()
   @IsOptional()
-  readonly subs?: Array<Subs>;
+  readonly subs?: Array<CreateSubDto>;
 }

@@ -5,7 +5,7 @@ import { DeleteCommand, DeleteCommandInput } from '@aws-sdk/lib-dynamodb';
 const delUser = (user: User) => {
   const Key = {
     name: user.name,
-    grade: user.grade,
+    role: user.role,
   }
   const delUserParams: DeleteCommandInput = {
     TableName: process.env.DYNAMO_USER,

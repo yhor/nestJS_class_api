@@ -64,12 +64,12 @@ Resources:
       AttributeDefinitions:
         - AttributeName: name
           AttributeType: S
-        - AttributeName: grade
+        - AttributeName: role
           AttributeType: S
       KeySchema:
         - AttributeName: name
           KeyType: HASH
-        - AttributeName: grade
+        - AttributeName: role
           KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: !Ref defaultReadCapacityUnits

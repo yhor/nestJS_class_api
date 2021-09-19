@@ -9,7 +9,7 @@ const getUser = async (user: User, overCheck = true): Promise<User> => {
     TableName: process.env.DYNAMO_USER,
     Key: {
       name: user.name,
-      grade: user.grade,
+      role: user.role,
     }
   }
   const command = new GetCommand(getUserParams);

@@ -5,7 +5,7 @@ import client from '../client';
 const putUser = (user: User) => {
   const Item = {
     name: user.name,
-    grade: user.grade,
+    role: user.role,
   } 
 
   if(user.subs) {

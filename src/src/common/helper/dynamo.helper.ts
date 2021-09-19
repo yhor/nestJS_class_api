@@ -31,7 +31,7 @@ export const userProcessing = (items, getOne = false) => {
   const response = items.map((item) => {
     const temp: User = {
       name: item.name.S,
-      grade: item.grade.S, 
+      role: item.role.S, 
     }
     if (item.subs?.S) temp.subs = JSON.parse(item.subs.S);
     return temp;

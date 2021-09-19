@@ -6,12 +6,11 @@ import getUser from './../db/users/getUser';
 import getUsers from './../db/users/getUsers';
 import putUser from './../db/users/putUsers';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Role } from './../enums/role.enum';
 
 @Injectable()
 export class UsersService {
-
   /**
    * 유저목록
    * @returns 
@@ -26,10 +25,19 @@ export class UsersService {
    * @returns 
    */
   async userCreate(createUserDto: CreateUserDto) {
+    const role = createUserDto.role;
+    let roleCheck = false;
+    for(const key in Role) {
+      if (!Role[key].includes(role)) continue;
+      roleCheck = true;
+      break;
+    };
+    if (!roleCheck) throw new NotFoundException('잘못된 권한입니다');
+    
     await getUser(createUserDto, false);
     await putUser(createUserDto);
 
-    return `${createUserDto.name}(${createUserDto.grade}) 가 등록되었습니다`;
+    return `${createUserDto.name}(${createUserDto.role}) 가 등록되었습니다`;
   }
 
   /**
@@ -41,7 +49,7 @@ export class UsersService {
     await getUser(createUserDto);
     await delUser(createUserDto);
 
-    return `${createUserDto.name}(${createUserDto.grade}) 가 삭제되었습니다`;
+    return `${createUserDto.name}(${createUserDto.role}) 가 삭제되었습니다`;
   }
   
   /**
@@ -49,7 +57,8 @@ export class UsersService {
    * @param createUserDto 
    * @returns 
    */
-   async subCreate(createUserDto: CreateUserDto) {
+  async subCreate(createUserDto: CreateUserDto) {
+     console.log('createUserDto', createUserDto)
     const user = await getUser(createUserDto, true);
     const schoolInfo: School = {
       area: createUserDto.subs['area'],
