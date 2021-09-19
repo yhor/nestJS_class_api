@@ -1,5 +1,3 @@
-import { Role } from "src/enums/role.enum";
-
 export interface Subs {
 	area: string;
 	name: string;

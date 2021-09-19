@@ -26,7 +26,6 @@ export class UsersController {
   @AuthPublic()
   @Post()
   userCreate(@Body() createUserDto: CreateUserDto) {
-    console.log('createUserDto', createUserDto);
     return this.usersService.userCreate(createUserDto);
   }
 
@@ -42,10 +41,10 @@ export class UsersController {
   @Roles(Role.User)
   subCreate(
     @Request() req,
-    @Body() createUserDto: CreateSubDto
+    @Body() createSubDto: CreateSubDto
   ) {
-    const data = { ...req.user, subs: createUserDto }
-    return this.usersService.subCreate(req.user);
+    const data = { ...req.user, subs: createSubDto }
+    return this.usersService.subCreate(data);
   }
 
   //학생은 구독 중인 학교 페이지를 구독 취소할 수 있다.

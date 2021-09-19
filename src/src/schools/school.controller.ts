@@ -18,6 +18,12 @@ export class SchoolController {
   create(@Body() createSchoolDto: CreateSchoolDto) {
     return this.schoolService.create(createSchoolDto);
   }
+  
+  @Delete()
+  @Roles(Role.Admin)
+  delete(@Body() createSchoolDto: CreateSchoolDto) {
+    return this.schoolService.delete(createSchoolDto);
+  }
 
   @Get()
   @Roles(Role.Admin)

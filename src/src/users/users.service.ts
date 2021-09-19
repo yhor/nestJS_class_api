@@ -58,7 +58,6 @@ export class UsersService {
    * @returns 
    */
   async subCreate(createUserDto: CreateUserDto) {
-     console.log('createUserDto', createUserDto)
     const user = await getUser(createUserDto, true);
     const schoolInfo: School = {
       area: createUserDto.subs['area'],
@@ -122,11 +121,14 @@ export class UsersService {
    */
   async subList(createUserDto: CreateUserDto) {
     const user = await getUser(createUserDto, true);
+    
+    if (!user.subs) return '구독중인 학교가 없습니다';
+
     const subs = user.subs
       .filter((sub) => sub.is_sub === 'Y')
       .map((obj) => `${obj.name}(${obj.area})`);
 
-    return subs.length === 0 ? '구독중인 학교가 없습니다' : subs;
+    return subs.length ? subs : '구독중인 학교가 없습니다';
   }
 
   /**
