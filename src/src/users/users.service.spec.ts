@@ -32,7 +32,6 @@ describe('UsersService', () => {
       providers: [UsersService, SchoolService], 
     }).compile();
 
-    // console.log(process.env)
     userService = module.get<UsersService>(UsersService);
     schoolService = module.get<SchoolService>(SchoolService);
   });

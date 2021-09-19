@@ -39,8 +39,8 @@ export class SchoolController {
 
   @Post('/news')
   @Roles(Role.Admin)
-  newsCreate(@Body() updateSchoolDto: UpdateSchoolDto) {
-    return this.schoolService.newsCreate(updateSchoolDto);
+  newsCreate(@Body() createSchoolDto: CreateSchoolDto) {
+    return this.schoolService.newsCreate(createSchoolDto);
   }
 
   @Patch('/news/:id')

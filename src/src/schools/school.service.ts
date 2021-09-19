@@ -40,8 +40,8 @@ export class SchoolService {
 
 
   //뉴스 생성
-  async newsCreate(updateSchoolDto: UpdateSchoolDto) {
-    const { area, name, news } = updateSchoolDto;
+  async newsCreate(createSchoolDto: CreateSchoolDto) {
+    const { area, name, news } = createSchoolDto;
     const school = await getSchool({ area, name });
 
     const id = school.news ? school.news.length + 1 : 1;
@@ -73,7 +73,7 @@ export class SchoolService {
     
     await putSchool(school);
 
-    return `${name}(${area})의 ${news['id']}번 뉴스가 수정되었습니다`;
+    return `${name}(${area})의 ${id}번 뉴스가 수정되었습니다`;
   }
 
   //뉴스 삭제

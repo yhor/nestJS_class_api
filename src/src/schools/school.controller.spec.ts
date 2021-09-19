@@ -5,7 +5,7 @@ import { SchoolService } from './school.service';
 describe('SchoolController', () => {
   let controller: SchoolController;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SchoolController],
       providers: [SchoolService],
