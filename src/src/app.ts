@@ -26,7 +26,12 @@ export async function createApp(
   const config = new DocumentBuilder()
     .setTitle('NestJS Swagger')
     .setDescription('설명')
-    .setVersion('1.0')
+    .setVersion('1.0.0')
+    .addBearerAuth()
+    // .addBearerAuth(
+    //   { type: 'http', scheme: 'bearer', bearerFormat: 'Token' },
+    //   'access-token'
+    // )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);

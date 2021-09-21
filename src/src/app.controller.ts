@@ -2,13 +2,15 @@ import { Controller, Get, NotFoundException, Post, Request, UseGuards } from '@n
 import { AuthService } from './auth/auth.service';
 import { AuthPublic } from './decorator/authPubilc.decorator';
 import getUser from './db/users/getUser';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { swaggerLoginInfo } from './swagger/model';
 
 @Controller()
 export class AppController {
   constructor(private authService: AuthService) {}
 
-  
+  @ApiOperation({ summary: '로그인', description: 'access_token 발급' })
+  @ApiBody({ type: swaggerLoginInfo })
   @ApiTags('login')
   @AuthPublic()
   @Post('login')
