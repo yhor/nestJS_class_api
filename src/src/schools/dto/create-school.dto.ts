@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
 class News {
-  @ApiProperty({ description: 'id' })
+  @ApiProperty({ description: 'id', required: false })
   @IsOptional()
   @IsNumber()
   readonly id?: number;
@@ -15,17 +15,17 @@ class News {
   @IsString()
   readonly content: string;
   
-  @ApiProperty({ description: '생성일' })
+  @ApiProperty({ description: '생성일', required: false })
   @IsOptional()
   @IsDate()
   readonly reg_date?: Date;
   
-  @ApiProperty({ description: '수정일' })
+  @ApiProperty({ description: '수정일', required: false })
   @IsOptional()
   @IsDate()
   readonly update_date?: Date;
   
-  @ApiProperty({ description: '삭제여부' })
+  @ApiProperty({ description: '삭제여부', required: false })
   @IsOptional()
   @IsString()
   readonly is_delete?: string;
@@ -40,7 +40,7 @@ export class CreateSchoolDto {
   @IsString()
   readonly name: string;
 
-  @ApiProperty({ description: '뉴스' })
+  @ApiProperty({ description: '뉴스', required: false })
   @IsOptional()
   readonly news?: Array<News>;
 }

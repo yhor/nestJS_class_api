@@ -4,10 +4,11 @@ import { CreateSubDto, CreateUserDto } from './dto/create-user.dto';
 import { AuthPublic } from './../decorator/authPubilc.decorator';
 import { Roles } from './../decorator/role.decorator';
 import { Role } from './../enums/role.enum';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { swaggerSchool, swaggerUser } from 'src/swagger/model';
 
 
-@ApiBearerAuth('JWT')
+@ApiBearerAuth('access-token')
 @ApiTags('user')
 @Controller('user')
 export class UsersController {
@@ -23,7 +24,8 @@ export class UsersController {
 
   //유저생성
   @ApiOperation({ summary: '유저생성', description: '학생 관리자 생성' })
-  @ApiBearerAuth('none')
+  @ApiBody({ type: swaggerUser})
+  // @ApiBearerAuth()
   @AuthPublic()
   @Post()
   userCreate(@Body() createUserDto: CreateUserDto) {
@@ -32,15 +34,19 @@ export class UsersController {
 
   //유저 삭제
   @ApiOperation({ summary: '유저삭제', description: '유저를 삭제한다' })
-  @Delete()
+  @Delete(':name/:role')
   @Roles(Role.Admin)
-  userDelete(@Query() query: CreateUserDto) {
-    return this.usersService.userDelete(query);
+  userDelete(
+    @Param('name') name: string,
+    @Param('role') role: string
+  ) {
+    return this.usersService.userDelete({ name, role });
   }
 
   //학생은 학교 페이지를 구독할 수 있다.
   @ApiOperation({ summary: '학교구독', description: '학교 구독한다.' })
   @Post('/sub')
+  @ApiBody({ type: swaggerSchool })
   @Roles(Role.User)
   subCreate(
     @Request() req,
@@ -53,6 +59,7 @@ export class UsersController {
   //학생은 구독 중인 학교 페이지를 구독 취소할 수 있다.
   @ApiOperation({ summary: '구독취소', description: '유저가 학교 구독 취소' })
   @Patch('/sub')
+  @ApiBody({ type: swaggerSchool })
   @Roles(Role.User)
   subCancel(
     @Request() req,
@@ -74,12 +81,12 @@ export class UsersController {
 
   //학생은 구독 중인 학교 페이지별 소식을 볼 수 있다. 학교별 소식은 최신순으로 노출해야 함
   @ApiOperation({ summary: '학교별 뉴스 보기', description: '학교 별 뉴스 보기' })
-  @Get('/sub/:schoolname/:schoolarea')
+  @Get('/sub/:name/:area')
   @Roles(Role.User)
   subDetail(
     @Request() req,
-    @Param('schoolname') name: string, 
-    @Param('schoolarea') area: string,
+    @Param('name') name: string, 
+    @Param('area') area: string,
   ) {
     return this.usersService.subDetail(name, area, req.user);
   }

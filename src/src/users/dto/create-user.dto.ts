@@ -10,17 +10,17 @@ export class CreateSubDto {
   @IsString()
   readonly name: string;
   
-  @ApiProperty({ description: '구독 시작일' })
+  @ApiProperty({ description: '구독 시작일', required: false })
   @IsOptional()
   @IsDate()
   readonly sub_start_date?: Date;
   
-  @ApiProperty({ description: '구독 취소일' })
+  @ApiProperty({ description: '구독 취소일', required: false })
   @IsOptional()
   @IsDate()
   readonly sub_end_date?: Date;
   
-  @ApiProperty({ description: '구독여부' })
+  @ApiProperty({ description: '구독여부', required: false })
   @IsOptional()
   @IsString()
   readonly is_sub?: string;
@@ -35,7 +35,7 @@ export class CreateUserDto {
   @IsString()
   readonly role: string;
 
-  @ApiProperty({ description: '구독들' })
+  @ApiProperty({ description: '구독들', required: false })
   @IsOptional()
   readonly subs?: Array<CreateSubDto>;
 }
