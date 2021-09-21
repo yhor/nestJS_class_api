@@ -39,7 +39,7 @@ describe('AppsController', () => {
       const result = await controller.login(
         {
           body: {
-            name: "승열",
+            name: "킹",
             role: "관리자"
           }
         }

@@ -7,8 +7,6 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
-
-console.log('------------ process.env.NODE_ENV', process.env.NODE_ENV);
 @Module({
   imports: [
     SchoolModule,

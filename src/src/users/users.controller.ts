@@ -4,8 +4,8 @@ import { CreateSubDto, CreateUserDto } from './dto/create-user.dto';
 import { AuthPublic } from './../decorator/authPubilc.decorator';
 import { Roles } from './../decorator/role.decorator';
 import { Role } from './../enums/role.enum';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { swaggerSchool, swaggerUser } from 'src/swagger/model';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { swaggerSchool, swaggerUser } from './../swagger/model';
 
 
 @ApiBearerAuth('access-token')

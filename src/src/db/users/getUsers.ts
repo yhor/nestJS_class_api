@@ -8,8 +8,6 @@ const getUsers = async (): Promise<User[]> =>  {
   const getUserParams: ScanCommandInput = {
     TableName: process.env.DYNAMO_USER,
   }
-
-  console.log('00000000000000000', process.env.NODE_ENV, process.env.DYNAMO_USER);
   
   const command = new ScanCommand(getUserParams);
   const { Items } = await client.send(command);

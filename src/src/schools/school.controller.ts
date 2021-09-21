@@ -4,8 +4,8 @@ import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
 import { Roles } from './../decorator/role.decorator';
 import { Role } from './../enums/role.enum';
-import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { swaggerSchool, swaggerSchoolNew } from 'src/swagger/model';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { swaggerSchool, swaggerSchoolNew } from './../swagger/model';
 
 @ApiBearerAuth('access-token')
 @ApiTags('school')
@@ -23,10 +23,13 @@ export class SchoolController {
   
   @ApiOperation({ summary: '학교삭제', description: '학교 삭제' })
   @ApiBody({ type: swaggerSchool })
-  @Delete()
+  @Delete(':name/:area')
   @Roles(Role.Admin)
-  delete(@Body() createSchoolDto: CreateSchoolDto) {
-    return this.schoolService.delete(createSchoolDto);
+  delete(
+    @Param('name') name: string,
+    @Param('area') area: string,
+  ) {
+    return this.schoolService.delete({ name, area });
   }
 
   @ApiOperation({ summary: '학교(뉴스) 모두보기', description: '모든 학교 뉴스리스트 일괄 보기' })
