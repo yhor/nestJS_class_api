@@ -33,7 +33,7 @@ export class UsersService {
       break;
     };
     if (!roleCheck) throw new NotFoundException('잘못된 권한입니다');
-    
+
     await getUser(createUserDto, false);
     await putUser(createUserDto);
 

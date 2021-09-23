@@ -8,13 +8,13 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { swaggerSchool, swaggerUser } from './../swagger/model';
 
 
-@ApiBearerAuth('access-token')
 @ApiTags('user')
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   //유저 리스트
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '유저 리스트', description: '모든 유저리스트 반환' })
   @Get()
   @Roles(Role.Admin)
@@ -25,14 +25,15 @@ export class UsersController {
   //유저생성
   @ApiOperation({ summary: '유저생성', description: '학생 관리자 생성' })
   @ApiBody({ type: swaggerUser})
-  // @ApiBearerAuth()
   @AuthPublic()
   @Post()
   userCreate(@Body() createUserDto: CreateUserDto) {
+    console.log('오고', createUserDto)
     return this.usersService.userCreate(createUserDto);
   }
 
   //유저 삭제
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '유저삭제', description: '유저를 삭제한다' })
   @Delete(':name/:role')
   @Roles(Role.Admin)
@@ -44,6 +45,7 @@ export class UsersController {
   }
 
   //학생은 학교 페이지를 구독할 수 있다.
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '학교구독', description: '학교 구독한다.' })
   @Post('/sub')
   @ApiBody({ type: swaggerSchool })
@@ -57,6 +59,7 @@ export class UsersController {
   }
 
   //학생은 구독 중인 학교 페이지를 구독 취소할 수 있다.
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '구독취소', description: '유저가 학교 구독 취소' })
   @Patch('/sub')
   @ApiBody({ type: swaggerSchool })
@@ -70,6 +73,7 @@ export class UsersController {
   }
 
   //학생은 구독 중인 학교 페이지 목록을 확인할 수 있다
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'My 구독리스트', description: '내 구독 목록 보기' })
   @Get('/sub/list')
   @Roles(Role.User)
@@ -80,6 +84,7 @@ export class UsersController {
   }
 
   //학생은 구독 중인 학교 페이지별 소식을 볼 수 있다. 학교별 소식은 최신순으로 노출해야 함
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '학교별 뉴스 보기', description: '학교 별 뉴스 보기' })
   @Get('/sub/:name/:area')
   @Roles(Role.User)
@@ -92,6 +97,7 @@ export class UsersController {
   }
 
   //추가구현
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '내가 구독한 모든 정보 한번에 보기', description: '구독했던 모든 피드 보기' })
   @Get('/sub/all')
   @Roles(Role.User)

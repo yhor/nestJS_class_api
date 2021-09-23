@@ -19,7 +19,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('NestJS Swagger')
-    .setDescription('설명')
+    .setDescription('nestJS + dynamoDB + SAM')
     .setVersion('1.0')
     .addBearerAuth(
       {    
@@ -33,6 +33,7 @@ async function bootstrap() {
       'access-token'
     )
     .build();
+    
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
