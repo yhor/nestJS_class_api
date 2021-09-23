@@ -4,7 +4,7 @@ Node.js, TypeScript, NestJS, DynamoDB, Lambda + SAM
 
 ## API 문서
 
-https://hpj4mrb1nh.execute-api.ap-northeast-2.amazonaws.com/Prod/swagger
+https://class.yeol.tech/swagger
 
 ## API 사용법
 

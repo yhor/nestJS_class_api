@@ -28,7 +28,6 @@ export class UsersController {
   @AuthPublic()
   @Post()
   userCreate(@Body() createUserDto: CreateUserDto) {
-    console.log('오고', createUserDto)
     return this.usersService.userCreate(createUserDto);
   }
 

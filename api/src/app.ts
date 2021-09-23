@@ -1,9 +1,10 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { Express } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 export async function createApp(
   expressApp: Express,
@@ -42,6 +43,10 @@ export async function createApp(
     
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
+
+  
+  const reflector = app.get(Reflector); //추가
+  app.useGlobalGuards(new JwtAuthGuard(reflector)); //추가
   
   return app;
 }

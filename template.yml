@@ -15,8 +15,32 @@ Parameters:
     Type: Number
     Description: dynamodb Default WriteCapacityUnits
     Default: 2
+  domainName:
+    Type: String
+    Description: domainName
+    Default: domainName
+  domainACM:
+    Type: String
+    Description: domainACM
+    Default: domainACM
 
 Resources:
+  
+  nestjsApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name : nestjsApi
+      StageName: Prod
+      Cors:
+        AllowMethods: "'GET,POST,PUT,DELETE'"
+        AllowHeaders: "'Content-Type, Authorization, Content-Length, x-requested-with'"
+        AllowOrigin: "'*'"
+      Domain:
+        DomainName: !Ref domainName
+        CertificateArn: !Ref domainACM
+        EndpointConfiguration: REGIONAL
+        BasePath:
+          - /
 
   nestFunction:
     Type: AWS::Serverless::Function
@@ -35,9 +59,10 @@ Resources:
           DYNAMO_SCHOOL: !Ref schoolsTable
           DYNAMO_USER: !Ref usersTable
       Events:
-        Api:
+        BackendApi:
           Type: Api
           Properties:
+            RestApiId: !Ref nestjsApi
             Path: /{proxy+}
             Method: ANY
 
@@ -78,4 +103,4 @@ Resources:
 Outputs:
   WebEndpoint:
     Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub "https://${nestjsApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
