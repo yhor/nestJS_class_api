@@ -6,6 +6,9 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { CbModule } from './modules/mbi-solution/cb/cb.module';
+import { GgService } from './ggg/gg/gg.service';
+import { CbService } from './modules/mbi-solution/cb/cb.service';
 
 @Module({
   imports: [
@@ -17,10 +20,12 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     }),
     UsersModule,
     AuthModule,
+    CbModule,
   ],
   controllers: [AppController],
   providers: [
-    { //jwt-auth 가드 전역
+    {
+      //jwt-auth 가드 전역
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
